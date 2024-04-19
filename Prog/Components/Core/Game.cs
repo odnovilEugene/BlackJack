@@ -1,4 +1,3 @@
-using System.Reflection.Metadata;
 using Prog.Components.Core.MenuCore;
 using Prog.Interfaces;
 
@@ -70,11 +69,7 @@ namespace Prog.Components.Core
                 Menu.ChangeOptions(new());
             }
             
-            if (Player.Hand.TotalValue == 21)
-            {
-                Win(Player, Dealer);
-                return;
-            } else if (Player.Hand.TotalValue > 21)
+            if (Player.Hand.TotalValue > 21)
             {
                 Win(Dealer, Player);
                 return;
@@ -148,14 +143,14 @@ namespace Prog.Components.Core
             Renderer.RenderMessageAndGame($"{winner} WON!");
             winner.ChangeAmount(CurrentBet);
 
-            while(winner.Hand.Cards.TryPeek(out _))
+            while(winner.Hand.Cards.Size > 0)
             {
                 Deck.TakeDiscardedCard(winner.Hand.Cards.Pop());
             }
 
             loser.ChangeAmount(-CurrentBet);
 
-            while(loser.Hand.Cards.TryPeek(out _))
+            while(loser.Hand.Cards.Size > 0)
             {
                 Deck.TakeDiscardedCard(loser.Hand.Cards.Pop());
             }
@@ -167,12 +162,12 @@ namespace Prog.Components.Core
         {
             Renderer.RenderMessageAndGame("PUSH!");
 
-            while(Player.Hand.Cards.TryPeek(out _))
+            while(Player.Hand.Cards.Size > 0)
             {
                 Deck.TakeDiscardedCard(Player.Hand.Cards.Pop());
             }
 
-            while(Dealer.Hand.Cards.TryPeek(out _))
+            while(Dealer.Hand.Cards.Size > 0)
             {
                 Deck.TakeDiscardedCard(Dealer.Hand.Cards.Pop());
             }

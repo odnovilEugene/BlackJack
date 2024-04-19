@@ -85,13 +85,15 @@ namespace Prog.Components.Core
         {
             int tempRow = Row;
 
-            if (Game.Player.Hand.Cards.Count != 0)
+            if (Game.Player.Hand.Cards.Size != 0)
             {
-                foreach(Card card in Game.Player.Hand.Cards)
+                Node<Card>? top = Game.Player.Hand.Cards.Top;
+                while (top != null)
                 {
                     ResetCol();
-                    string cardString = card.ToString();
+                    string cardString = top.Element.ToString();
                     WriteAtStyled(cardString, 0, 1, Color.White);
+                    top = top.Next;
                 }
                 
             } else
@@ -103,13 +105,15 @@ namespace Prog.Components.Core
 
             Row = tempRow;
 
-            if (Game.Dealer.Hand.Cards.Count != 0)
+            if (Game.Dealer.Hand.Cards.Size != 0)
             {
-                foreach(Card card in Game.Dealer.Hand.Cards)
+                Node<Card>? top = Game.Dealer.Hand.Cards.Top;
+                while (top != null)
                 {
                     ResetCol();
-                    string cardString = card.ToString();
+                    string cardString = top.Element.ToString();
                     WriteAtStyled(cardString, Width - cardString.Length, 1, Color.White);
+                    top = top.Next;
                 }
                 
             } else 
@@ -127,14 +131,6 @@ namespace Prog.Components.Core
             WriteAt(message, CeilDivision(Width, 2) - CeilDivision(message.Length, 2), 0, Color.White);
             RenderBlank();
             RenderGame();
-            // RenderBlank();
-            // RenderBlank();
-            // RenderBlank();
-            // foreach(Card card in Game.Deck.ShowDeck())
-            // {
-            //     ResetCol();
-            //     WriteAt(card.ToString(), 0, 1, Color.White);
-            // }
         }
 
         private void RenderAmounts()

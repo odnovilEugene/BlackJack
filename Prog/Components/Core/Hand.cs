@@ -3,15 +3,18 @@ namespace Prog.Components.Core
 {
     public struct Hand
     {
-        public Stack<Card> Cards { get; private set; }
+        public CustomStack<Card> Cards { get; private set; }
         public int TotalValue 
         {
             get
             {
                 int total = 0;
-                foreach(Card card in Cards)
+
+                Node<Card>? top = Cards.Top;
+                while(top != null) 
                 {
-                    total += (int)card.Value;
+                    total += (int)top.Element.Value;
+                    top = top.Next;
                 }
 
                 return total;
@@ -29,7 +32,9 @@ namespace Prog.Components.Core
 
         public void Clear()
         {
-            Cards.Clear();
+            while(Cards.Size > 0) {
+                Cards.Pop();
+            }
         }
     }
 }
